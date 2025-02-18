@@ -1,5 +1,11 @@
 package com.jinqitrip.jtcn.modules.auth.service;
 
+import org.springframework.stereotype.Service;
+
+import com.jinqitrip.jtcn.common.utils.JwtUtil;
+import com.jinqitrip.jtcn.common.response.Result;
+import lombok.RequiredArgsConstructor;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {

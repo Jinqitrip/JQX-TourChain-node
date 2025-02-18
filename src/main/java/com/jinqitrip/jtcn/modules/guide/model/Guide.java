@@ -1,5 +1,11 @@
 package com.jinqitrip.jtcn.modules.guide.model;
 
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Enumerated;
+
 @Entity
 @Data
 public class Guide {

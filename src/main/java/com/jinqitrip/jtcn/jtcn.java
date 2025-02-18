@@ -8,7 +8,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.boot.CommandLineRunner;
 
 @EnableAsync       // 启用异步处理
 @EnableScheduling  // 启用定时任务
@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class jtcn {
 
     public static void main(String[] args) {
-        SpringApplication.run(CampusGuideApplication.class, args);
+        SpringApplication.run(jtcn.class, args);
     }
 
     // 应用启动完成时执行的初始化操作
