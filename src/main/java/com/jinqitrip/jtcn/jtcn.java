@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableScheduling  // 启用定时任务
 @EnableJpaAuditing // 启用JPA审计
 @SpringBootApplication
-public class CampusGuideApplication {
+public class jtcn {
 
     public static void main(String[] args) {
         SpringApplication.run(CampusGuideApplication.class, args);
