@@ -9,17 +9,6 @@ import javax.persistence.*;
 @Entity
 @Data
 public class Guide {
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long id;
-    
-    private String studentId;
-    private String tourGuideCert;
-    
-    @Enumerated(STRING)
-    private VerifyStatus status = VerifyStatus.PENDING_INITIAL;
-    
-    @ElementCollection
-    private List<AuditLog> auditLogs = new ArrayList<>();
+    // 感觉这个可以合到User里面......
+    // 后面再说
 }
-
