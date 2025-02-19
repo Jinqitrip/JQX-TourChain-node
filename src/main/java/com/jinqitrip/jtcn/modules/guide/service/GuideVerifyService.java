@@ -1,10 +1,15 @@
 package com.jinqitrip.jtcn.modules.guide.service;
 
+import com.jinqitrip.jtcn.modules.guide.model.dto.GuideVerifyRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
 import java.util.List;
 import java.time.LocalDateTime;
+
+import com.jinqitrip.jtcn.modules.guide.model.Guide;
+
 
 @Service
 @Transactional

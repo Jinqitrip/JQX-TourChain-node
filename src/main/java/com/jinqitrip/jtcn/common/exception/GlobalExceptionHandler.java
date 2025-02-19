@@ -1,5 +1,9 @@
 package com.jinqitrip.jtcn.common.exception;
 
+import com.jinqitrip.jtcn.common.response.Result;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     

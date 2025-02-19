@@ -1,5 +1,6 @@
 package com.jinqitrip.jtcn.modules.auth.service;
 
+import com.jinqitrip.jtcn.common.exception.BizException;
 import org.springframework.stereotype.Service;
 
 import com.jinqitrip.jtcn.common.utils.JwtUtil;

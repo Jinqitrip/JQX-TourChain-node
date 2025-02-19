@@ -1,5 +1,7 @@
 package com.jinqitrip.jtcn.common.utils;
 
+import com.jinqitrip.jtcn.common.exception.BizException;
+
 public class MediaValidator {
     private static final double TARGET_RATIO = 4.0 / 3.0;
     private static final double RATIO_TOLERANCE = 0.01;

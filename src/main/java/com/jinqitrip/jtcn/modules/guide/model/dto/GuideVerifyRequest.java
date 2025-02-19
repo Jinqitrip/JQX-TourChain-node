@@ -1,5 +1,7 @@
 package com.jinqitrip.jtcn.modules.guide.model.dto;
 
+import lombok.Data;
+
 @Data
 public class GuideVerifyRequest {
     @NotBlank

@@ -1,10 +1,10 @@
 package com.jinqitrip.jtcn.modules.guide.model;
 
+import lombok.Data;
+
+import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 @Entity
 @Data
