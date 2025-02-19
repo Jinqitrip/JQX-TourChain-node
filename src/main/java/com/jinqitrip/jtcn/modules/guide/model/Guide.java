@@ -14,7 +14,6 @@ public class Guide {
     private Long id;
     
     private String studentId;
-    private String idCardFront; // Base64存储或文件路径
     private String tourGuideCert;
     
     @Enumerated(STRING)
