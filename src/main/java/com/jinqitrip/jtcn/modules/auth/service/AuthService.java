@@ -41,3 +41,32 @@ public class AuthService {
         return Result.success(new AuthResponse(token));
     }
 }
+
+@Transactional
+public Result<?> register(RegisterRequest request) {
+    // 1. 验证短信验证码
+    if (!smsService.validateCode(request.getPhone(), request.getSmsCode())) {
+        throw new BizException(400, "验证码错误或已过期");
+    }
+
+    // 2. 检查用户名唯一性
+    if (userRepo.existsByUsername(request.getUsername())) {
+        throw new BizException(409, "用户名已被注册");
+    }
+
+    // 3. 创建用户实体
+    User user = new User();
+    user.setUsername(request.getUsername());
+    user.setPassword(passwordEncoder.encode(request.getPassword()));
+    user.setPhone(request.getPhone());
+    user.setStatus(UserStatus.INACTIVE); // 需要激活
+
+    // 4. 保存到数据库
+    User savedUser = userRepo.save(user);
+    
+    // 5. 发送激活邮件/短信（异步）
+    asyncService.sendActivation(savedUser);
+
+    return Result.success("注册成功，请查收激活邮件");
+}
+
