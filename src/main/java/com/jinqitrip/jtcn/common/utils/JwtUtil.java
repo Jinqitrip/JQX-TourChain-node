@@ -33,4 +33,24 @@ public class JwtUtil {
             return false;
         }
     }
+
+    public String generateAccessToken(User user) {
+        return Jwts.builder()
+                .header().type("JWT").and()
+                .subject(user.getUsername())
+                .claim("roles", user.getRoles())
+                .claim("deviceId", user.getCurrentDeviceId())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 3600000)) // 1小时
+                .signWith(SECRET_KEY)
+                .compact();
+    }
+    
+    public String generateRefreshToken(User user) {
+        return Jwts.builder()
+                .subject(user.getUsername())
+                .expiration(new Date(System.currentTimeMillis() + 2592000000L)) // 30天
+                .signWith(SECRET_KEY)
+                .compact();
+    }
 }

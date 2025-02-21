@@ -13,3 +13,16 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+
+@Bean
+public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    return config.getAuthenticationManager();
+}
+
+// 配置密码模式端点
+@Bean
+public AuthorizationServerSettings authorizationServerSettings() {
+    return AuthorizationServerSettings.builder()
+            .tokenEndpoint("/api/v1/auth/login")
+            .build();
+}
