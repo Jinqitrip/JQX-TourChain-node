@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Jinqitrip/app-server#readme",
   "description": "",
   "dependencies": {
+    "app-server": "file:",
     "bcrypt": "^5.1.1",
     "express": "^4.21.2",
     "express-validator": "^7.2.1",
