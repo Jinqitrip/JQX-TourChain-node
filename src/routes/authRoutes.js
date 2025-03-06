@@ -38,4 +38,7 @@ router.post('/sms', [
   check('mobile').matches(/^1[3-9]\d{9}$/)
 ], authController.sendSms);
 
+// 微信登录
+router.post('/wxLogin', authController.wxLogin);
+
 module.exports = router;
