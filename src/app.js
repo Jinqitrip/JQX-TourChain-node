@@ -8,18 +8,18 @@ app.use(express.urlencoded({ extended: true }));
 
 // 路由
 const authRoutes = require('./routes/authRoutes');
-const guideRoutes = require('./routes/guideRoutes');
-const orderRoutes = require('./routes/orderRoutes');
-const configRoutes = require('./routes/configRoutes');
-const notificationRoutes = require('./routes/notificationRoutes');
-const supportRoutes = require('./routes/supportRoutes');
+//const guideRoutes = require('./routes/guideRoutes');
+//const orderRoutes = require('./routes/orderRoutes');
+//const configRoutes = require('./routes/configRoutes');
+//const notificationRoutes = require('./routes/notificationRoutes');
+//const supportRoutes = require('./routes/supportRoutes');
 
 app.use('/v1/auth', authRoutes);
-app.use('/v1/guides', guideRoutes);
-app.use('/v1/orders', orderRoutes);
-app.use('/v1/config', configRoutes);
-app.use('/v1/notifications', notificationRoutes);
-app.use('/v1/support', supportRoutes);
+//app.use('/v1/guides', guideRoutes);
+//app.use('/v1/orders', orderRoutes);
+//app.use('/v1/config', configRoutes);
+//app.use('/v1/notifications', notificationRoutes);
+//app.use('/v1/support', supportRoutes);
 
 // 测试端点
 app.post('/', (req, res) => {
