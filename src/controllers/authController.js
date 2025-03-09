@@ -189,7 +189,8 @@ module.exports = {
      
       const url = 'https://api.weixin.qq.com/sns/jscode2session?appid='+APPID+'&secret='+APPSECRET+'&js_code='+code+'&grant_type=authorization_code';
      
-      request.get(url, (err, response, body) => {
+      console.log(url)
+      /*request.get(url, (err, response, body) => {
         if (err) {
           return res.status(500).json({ success: false, message: '请求微信接口失败' });
         }
@@ -206,7 +207,7 @@ module.exports = {
           sessionKey: data.session_key,
           unionId: data.unionid
         });
-      });
+      });*/
     } catch (error) {
       handleError(res, error);
     }
