@@ -5,8 +5,7 @@ const { generateToken, generateRefreshToken } = require('../utils/auth');
 const client = require('../config/redis');
 const jwt = require('jsonwebtoken');
 const { REFRESH_SECRET } = require('../utils/auth');
-
-import '../../setting.js'
+const {APPID, APPSECRET} = require('../../setting.js')
 
 module.exports = {
   async register(req, res) {
