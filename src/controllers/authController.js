@@ -6,6 +6,8 @@ const client = require('../config/redis');
 const jwt = require('jsonwebtoken');
 const { REFRESH_SECRET } = require('../utils/auth');
 const {APPID, APPSECRET} = require('../../setting.js')
+const axios = require('axios');
+
 
 module.exports = {
   async register(req, res) {
@@ -182,36 +184,31 @@ module.exports = {
   async wxLogin(req, res) {
     try {
       const { code } = req.body;
- 
       if (!code) {
         return res.status(400).json({ success: false, message: '缺少code参数' });
       }
-     
-      const url = 'https://api.weixin.qq.com/sns/jscode2session?appid='+APPID+'&secret='+APPSECRET+'&js_code='+code+'&grant_type=authorization_code';
-     
-      console.log(url)
-      request.get(url, (err, response, body) => {
-        if (err) {
-          return res.status(500).json({ success: false, message: '请求微信接口失败' });
-        }
-     
-        const data = JSON.parse(body);
-     
-        if (data.errcode) {
-          return res.status(400).json({ success: false, message: data.errmsg });
-        }
-     
-        return res.status(200).json({
-          success: true,
-          openId: data.openid,
-          sessionKey: data.session_key,
-          unionId: data.unionid
-        });
+      
+      const url = `https://api.weixin.qq.com/sns/jscode2session?appid=${APPID}&secret=${APPSECRET}&js_code=${code}&grant_type=authorization_code`;
+      const response = await axios.get(url, { timeout: 5000 }); // 设置5秒超时
+      
+      const data = response.data;
+      if (data.errcode) {
+        return res.status(400).json({ success: false, message: data.errmsg });
+      }
+      
+      return res.status(200).json({
+        success: true,
+        openId: data.openid,
+        sessionKey: data.session_key,
+        unionId: data.unionid
       });
     } catch (error) {
+      if (error.code === 'ECONNABORTED') {
+        return res.status(504).json({ success: false, message: '微信接口请求超时' });
+      }
       handleError(res, error);
     }
-  },
+  }
 };
 
 function handleError(res, error) {
