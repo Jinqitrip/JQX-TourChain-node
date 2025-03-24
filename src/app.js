@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = 1919;
 
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 // 中间件
