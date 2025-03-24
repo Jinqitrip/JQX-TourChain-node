@@ -38,17 +38,19 @@ mongoose.connect('mongodb://localhost:27017/bookingDB', {
 
 // 订单状态枚举
 const OrderStatus = {
-  PENDING: '已下单',
-  SELECTING: '待选择',
-  UPCOMING: '待开始',
-  REVIEWING: '待评价',
-  COMPLETED: '已完成'
+  PENDING: 'pending',
+  SELECTING: 'selecting',
+  UPCOMING: 'upcoming',
+  REVIEWING: 'reviewing',
+  COMPLETED: 'completed'
 };
 
 // 订单模型
 const orderSchema = new mongoose.Schema({
   openID: { type: String, required: true, index: true },
   guideID: String,
+  price: Number,
+  location: String,
   data: {
     date: String,
     time: String,
@@ -76,7 +78,7 @@ const checkActiveOrder = async (req, res, next) => {
 
     if (activeOrder) {
       return res.status(400).json({
-        error: '已有进行中的订单，请先完成当前订单'
+        error: 'Active order exists, please complete current order first'
       });
     }
     next();
@@ -117,7 +119,7 @@ app.post('/api/orders', checkActiveOrder, async (req, res) => {
 app.get('/api/orders/:orderId/status', async (req, res) => {
   try {
     const order = await Order.findById(req.params.orderId);
-    if (!order) return res.status(404).json({ error: '订单不存在' });
+    if (!order) return res.status(404).json({ error: 'Order not found' });
     res.json({ status: order.status });
   } catch (error) {
     handleError(res, error);
@@ -128,7 +130,7 @@ app.get('/api/orders/:orderId/status', async (req, res) => {
 app.patch('/api/orders/:orderId/status', async (req, res) => {
   try {
     const order = await Order.findById(req.params.orderId);
-    if (!order) return res.status(404).json({ error: '订单不存在' });
+    if (!order) return res.status(404).json({ error: 'Order not found' });
 
     const newStatus = req.body.status;
 
@@ -136,15 +138,17 @@ app.patch('/api/orders/:orderId/status', async (req, res) => {
     if (order.status === OrderStatus.SELECTING &&
       newStatus === OrderStatus.UPCOMING &&
       !req.body.guideID) {
-      return res.status(400).json({ error: '状态变更需要指定导游' });
+      return res.status(400).json({ error: 'Guide ID required for status transition' });
     }
 
     // 更新状态和导游信息
     order.status = newStatus;
     if (req.body.guideID) order.guideID = req.body.guideID;
+    if (req.body.Location) order.location = req.body.location;
+    if (req.body.price) order.price = req.body.price;
 
     await order.save();
-    res.json({ message: '订单状态更新成功' });
+    res.json({ message: 'Order status updated successfully' });
   } catch (error) {
     handleError(res, error);
   }
@@ -170,7 +174,7 @@ app.get('/api/orders/user/:openID/active', async (req, res) => {
     }).sort({ createdAt: -1 }); // 按创建时间倒序获取最新的
 
     if (!activeOrder) {
-      return res.status(404).json({ message: '没有未完成订单' });
+      return res.status(404).json({ message: 'No active orders found' });
     }
     
     res.json(activeOrder);
@@ -185,7 +189,7 @@ function handleError(res, error) {
   if (error.name === 'ValidationError') {
     return res.status(400).json({ error: error.message });
   }
-  res.status(500).json({ error: '服务器内部错误' });
+  res.status(500).json({ error: 'Internal server error' });
 }
 
 app.listen(port, () => {
