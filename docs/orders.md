@@ -27,7 +27,7 @@
 ### 1. 创建订单
 
 **Endpoint**  
-`POST /api/orders`
+`POST /v1/orders`
 
 **中间件检查**  
 
@@ -67,7 +67,7 @@
 ### 2. 获取订单状态
 
 **Endpoint**  
-`GET /api/orders/{orderId}/status`
+`GET /v1/orders/{orderId}/status`
 
 **路径参数**:
 
@@ -91,7 +91,7 @@
 ### 3. 更新订单状态
 
 **Endpoint**  
-`PATCH /api/orders/{orderId}/status`
+`PATCH /v1/orders/{orderId}/status`
 
 **请求参数**:
 
@@ -122,7 +122,7 @@
 ### 4. 获取用户订单历史
 
 **Endpoint**  
-`GET /api/orders/user/{openID}`
+`GET /v1/orders/user/{openID}`
 
 **查询参数**:
 
@@ -149,7 +149,7 @@
 ### 5. 获取当前活跃订单
 
 **Endpoint**  
-`GET /api/orders/user/{openID}/active`
+`GET /v1/orders/user/{openID}/active`
 
 **特性**:
 

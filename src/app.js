@@ -88,7 +88,7 @@ const checkActiveOrder = async (req, res, next) => {
 };
 
 // 创建订单API端点
-app.post('/api/orders', checkActiveOrder, async (req, res) => {
+app.post('/v1/orders', checkActiveOrder, async (req, res) => {
   try {
     // 验证必要字段
     if (!req.body.openID || !req.body.data) {
@@ -116,7 +116,7 @@ app.post('/api/orders', checkActiveOrder, async (req, res) => {
 });
 
 // 获取订单状态
-app.get('/api/orders/:orderId/status', async (req, res) => {
+app.get('/v1/orders/:orderId/status', async (req, res) => {
   try {
     const order = await Order.findById(req.params.orderId);
     if (!order) return res.status(404).json({ error: 'Order not found' });
@@ -127,7 +127,7 @@ app.get('/api/orders/:orderId/status', async (req, res) => {
 });
 
 // 更新订单状态
-app.patch('/api/orders/:orderId/status', async (req, res) => {
+app.patch('/v1/orders/:orderId/status', async (req, res) => {
   try {
     const order = await Order.findById(req.params.orderId);
     if (!order) return res.status(404).json({ error: 'Order not found' });
@@ -155,7 +155,7 @@ app.patch('/api/orders/:orderId/status', async (req, res) => {
 });
 
 // 获取用户所有订单
-app.get('/api/orders/user/:openID', async (req, res) => {
+app.get('/v1/orders/user/:openID', async (req, res) => {
   try {
     const orders = await Order.find({ openID: req.params.openID })
       .sort({ createdAt: -1 });
@@ -166,7 +166,7 @@ app.get('/api/orders/user/:openID', async (req, res) => {
 });
 
 // 获取用户当前未完成订单
-app.get('/api/orders/user/:openID/active', async (req, res) => {
+app.get('/v1/orders/user/:openID/active', async (req, res) => {
   try {
     const activeOrder = await Order.findOne({
       openID: req.params.openID,
