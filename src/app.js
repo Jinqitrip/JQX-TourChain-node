@@ -78,7 +78,7 @@ const checkActiveOrder = async (req, res, next) => {
     });
 
     if (activeOrder) {
-      return res.status(400).json({
+      return res.status(401).json({
         error: 'Active order exists, please complete current order first'
       });
     }
@@ -116,6 +116,17 @@ app.post('/v1/orders', checkActiveOrder, async (req, res) => {
   }
 });
 
+// 获取订单
+app.get('/v1/orders/:orderId', async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.orderId);
+    if (!order) return res.status(404).json({ error: 'Order not found' });
+    res.json(order);
+  } catch (error) {
+    handleError(res, error);
+  }
+});
+
 // 获取订单状态
 app.get('/v1/orders/:orderId/status', async (req, res) => {
   try {
@@ -139,14 +150,14 @@ app.patch('/v1/orders/:orderId/status', async (req, res) => {
       return res.status(400).json({ error: 'Invalid status value' });
     }
 
-    // 状态转换逻辑（示例）
+    // 状态转换逻辑
     if (order.status === OrderStatus.SELECTING && 
         newStatus === OrderStatus.UPCOMING && 
         !req.body.guideID) {
       return res.status(400).json({ error: 'Guide ID required' });
     }
 
-    // 更新字段（修正大小写）
+    // 更新字段
     order.status = newStatus;
     if (req.body.guideID) order.guideID = req.body.guideID;
     if (req.body.location) order.location = req.body.location;
