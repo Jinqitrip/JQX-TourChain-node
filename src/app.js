@@ -49,6 +49,7 @@ const OrderStatus = {
 const orderSchema = new mongoose.Schema({
   openID: { type: String, required: true, index: true },
   guideID: String,
+  title: String,
   price: Number,
   location: String,
   data: {
@@ -132,25 +133,32 @@ app.patch('/v1/orders/:orderId/status', async (req, res) => {
     const order = await Order.findById(req.params.orderId);
     if (!order) return res.status(404).json({ error: 'Order not found' });
 
-    const newStatus = req.body.status;
-
-    // 状态转换验证
-    if (order.status === OrderStatus.SELECTING &&
-      newStatus === OrderStatus.UPCOMING &&
-      !req.body.guideID) {
-      return res.status(400).json({ error: 'Guide ID required for status transition' });
+    // 强制转为小写并验证
+    const newStatus = req.body.status?.toLowerCase(); 
+    if (!newStatus || !Object.values(OrderStatus).includes(newStatus)) {
+      return res.status(400).json({ error: 'Invalid status value' });
     }
 
-    // 更新状态和导游信息
+    // 状态转换逻辑（示例）
+    if (order.status === OrderStatus.SELECTING && 
+        newStatus === OrderStatus.UPCOMING && 
+        !req.body.guideID) {
+      return res.status(400).json({ error: 'Guide ID required' });
+    }
+
+    // 更新字段（修正大小写）
     order.status = newStatus;
     if (req.body.guideID) order.guideID = req.body.guideID;
-    if (req.body.Location) order.location = req.body.location;
+    if (req.body.location) order.location = req.body.location;
     if (req.body.price) order.price = req.body.price;
+    if (req.body.title) order.title = req.body.title;
 
     await order.save();
-    res.json({ message: 'Order status updated successfully' });
+    console.log('Saved Order:', order); // 关键日志
+
+    res.json({ message: `Order status updated to ${newStatus} successfully` });
   } catch (error) {
-    handleError(res, error);
+    handleError(res, error); // 确保捕获所有错误
   }
 });
 
