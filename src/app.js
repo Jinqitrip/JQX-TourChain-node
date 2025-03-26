@@ -145,15 +145,15 @@ app.patch('/v1/orders/:orderId/status', async (req, res) => {
     if (!order) return res.status(404).json({ error: 'Order not found' });
 
     // 强制转为小写并验证
-    const newStatus = req.body.status?.toLowerCase(); 
+    const newStatus = req.body.status?.toLowerCase();
     if (!newStatus || !Object.values(OrderStatus).includes(newStatus)) {
       return res.status(400).json({ error: 'Invalid status value' });
     }
 
     // 状态转换逻辑
-    if (order.status === OrderStatus.SELECTING && 
-        newStatus === OrderStatus.UPCOMING && 
-        !req.body.guideID) {
+    if (order.status === OrderStatus.SELECTING &&
+      newStatus === OrderStatus.UPCOMING &&
+      !req.body.guideID) {
       return res.status(400).json({ error: 'Guide ID required' });
     }
 
@@ -195,7 +195,7 @@ app.get('/v1/orders/user/:openID/active', async (req, res) => {
     if (!activeOrder) {
       return res.status(404).json({ message: 'No active orders found' });
     }
-    
+
     res.json(activeOrder);
   } catch (error) {
     handleError(res, error);
