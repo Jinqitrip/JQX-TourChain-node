@@ -1,9 +1,17 @@
 const express = require('express');
 const app = express();
+var https = require('https');
+const fs = require("fs");
 const port = 1919;
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
+const {KEY_PATH,PEM_PATH} = require('../setting.js');
+const license = {
+  key: fs.readFileSync(KEY_PATH),
+  cert: fs.readFileSync(PEM_PATH)
+};
 
 // 中间件
 app.use(express.json());
@@ -211,6 +219,7 @@ function handleError(res, error) {
   res.status(500).json({ error: 'Internal server error' });
 }
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+const server = https.createServer(license, app);
+server.listen(port, () => {
+  console.log(`Server running on port ${port}`)
+})
