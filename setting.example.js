@@ -1,6 +1,6 @@
 module.exports={
     APPID : '',
     APPSECRET : '',
-    PATH: "",
+    KEY_PATH: "",
     PEM_PATH: ""
 }
